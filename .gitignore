@@ -1,0 +1,10 @@
+# Ignore backend dependencies and secrets
+backend/node_modules/
+backend/.env
+
+# Ignore frontend dependencies
+frontend/node_modules/
+
+# OS/Editor junk
+.DS_Store
+*.log
