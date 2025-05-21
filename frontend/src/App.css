@@ -1,0 +1,148 @@
+/* General Reset */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Login Centering */
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  padding: 30px;
+  background: #f0f4fa;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+}
+
+.login-box select,
+.login-box input,
+.login-box button {
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+}
+
+/* Sticky Nav */
+.main-nav {
+  position: sticky;
+  top: 0;
+  background-color: #0077cc;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  cursor: pointer;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input {
+  padding: 5px;
+  margin-right: 5px;
+}
+
+/* Info Bar */
+.top-info-bar {
+  background: white;
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 20px;
+  font-size: 14px;
+  gap: 20px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+}
+
+.info-links span {
+  margin-left: 15px;
+}
+
+/* Dashboard */
+.dashboard-container {
+  padding: 20px;
+}
+
+.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #eaf3ff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.form-view {
+  background: #f8fcff;
+  padding: 30px;
+  border: 2px solid #0077cc;
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-title {
+  text-align: left;
+  color: #0077cc;
+}
+
+.fields {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.back-btn {
+  background-color: #0077cc;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
