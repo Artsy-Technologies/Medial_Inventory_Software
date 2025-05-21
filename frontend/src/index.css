@@ -1,3 +1,8 @@
-@import "tailwindcss";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App"; // Make sure App is exported using `export default App` in App.jsx
+import "./style.css"; // Assuming you have your styles in this file
 
-/* ✅ Custom Utilities */
+const container = document.getElementById("root");
+const root = createRoot(container);
+root.render(<App />);
