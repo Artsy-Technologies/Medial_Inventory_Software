@@ -3,14 +3,14 @@ This is a full-stack Inventory Management System built for pharmaceutical stores
 
 🔧 Backend: Node.js + Express + MySQL
 
-💻 Frontend: React (Vite) + Tailwind CSS v3+
+💻 Frontend: React (Vite) + TypeScript 
 
 🗂 Database: MySQL (shared company server)
 
 🛠️ Project Structure
 ARTSY_INVENTORY_MGMT/
 ├── backend/         # Node.js + Express API (stock rule, auth, etc.)
-├── frontend/        # React + Tailwind (Vite project)
+├── frontend/        # React + TypeScript (Vite project)
 ├── text-docs/       # Sample data (PDFs, mockups, etc.)
 └── images/          # Reference images or assets
 
