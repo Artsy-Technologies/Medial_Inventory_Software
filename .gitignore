@@ -8,7 +8,3 @@ frontend/node_modules/
 # OS/Editor junk
 .DS_Store
 *.log
-
-# Visual Studio Code 
-.vscode/
-
