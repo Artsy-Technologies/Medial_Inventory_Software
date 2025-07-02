@@ -1,17 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {
-  createStockRule,
-  getAllStockRules,
-  getStockRuleById,
-  updateStockRule,
-  deleteStockRule
-} = require('../controllers/stockRuleController');
+const sr = require('../controllers/stockRuleController');
 
-router.post('/stock-rule', createStockRule);
-router.get('/stock-rules', getAllStockRules);
-router.get('/stock-rule/:id', getStockRuleById);
-router.put('/stock-rule/:id', updateStockRule);
-router.delete('/stock-rule/:id', deleteStockRule);
+router.post('/', sr.createStockRule);
+router.get('/', sr.getAllStockRules);
+router.get('/:id', sr.getStockRuleById);
+router.put('/:id', sr.updateStockRule);
+router.delete('/:id', sr.deleteStockRule);
 
 module.exports = router;

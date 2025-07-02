@@ -1,67 +1,110 @@
 const StockRule = require('../models/stockRuleModel');
 const db = require('../db/db');
 
-exports.createStockRule = (req, res) => {
-  const data = req.body;
+// Create Stock Rule
+exports.createStockRule = async (req, res) => {
+  try {
+    const {
+      item_id, moq, pack_size, pack_density,
+      adr_mode, adr_months, adr, lod, lod_stock,
+      safety_stock, rol, max_stock
+    } = req.body;
 
-  // Optional: validate required fields here
-  if (!data.item_name || !data.moq) {
-    return res.status(400).json({ error: 'Item Name and MOQ are required' });
-  }
-
-  StockRule.createStockRule(data, (err, result) => {
-    if (err) {
-      console.error('Error creating stock rule:', err);
-      return res.status(500).json({ error: 'DB error while creating stock rule' });
+    if (!item_id || !adr_mode || (!adr && adr_mode === 'manual')) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    res.status(201).json({ message: 'Stock rule created', id: result.insertId });
-  });
+    const query = `
+      INSERT INTO Stock_Rules (
+        item_id, moq, pack_size, pack_density,
+        adr_mode, adr_months, adr, lod, lod_stock,
+        safety_stock, rol, max_stock
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+      item_id, moq, pack_size, pack_density,
+      adr_mode, adr_months || null, adr || null,
+      lod, lod_stock, safety_stock, rol, max_stock
+    ];
+
+    const [result] = await db.query(query, values);
+    res.status(201).json({ message: 'Stock rule created', rule_id: result.insertId });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Creation failed' });
+  }
 };
 
-exports.getAllStockRules = (req, res) => {
-  db.query('SELECT * FROM stock_rules', (err, results) => {
-    if (err) return res.status(500).json({ error: 'Error fetching stock rules' });
-    res.json(results);
-  });
+// Get all stock rules
+exports.getAllStockRules = async (req, res) => {
+  try {
+    const [rows] = await db.query(`SELECT * FROM Stock_Rules`);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch stock rules' });
+  }
 };
 
-exports.getStockRuleById = (req, res) => {
+// Get stock rule by ID
+exports.getStockRuleById = async (req, res) => {
   const { id } = req.params;
-  db.query('SELECT * FROM stock_rules WHERE id = ?', [id], (err, results) => {
-    if (err) return res.status(500).json({ error: 'Error fetching stock rule' });
-    if (results.length === 0) return res.status(404).json({ error: 'Stock rule not found' });
-    res.json(results[0]);
-  });
+  try {
+    const [[rule]] = await db.query(`SELECT * FROM Stock_Rules WHERE rule_id = ?`, [id]);
+    if (!rule) return res.status(404).json({ error: 'Stock rule not found' });
+    res.json(rule);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Fetch failed' });
+  }
 };
 
-exports.updateStockRule = (req, res) => {
+// Update stock rule
+exports.updateStockRule = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const {
+    moq, pack_size, pack_density, adr_mode, adr_months, adr,
+    lod, lod_stock, safety_stock, rol, max_stock
+  } = req.body;
 
-  const query = `
-    UPDATE stock_rules SET 
-      item_name = ?, uom = ?, pack_size = ?, moq = ?, adr = ?, 
-      lead_time = ?, lod_stock = ?, ss = ?, rol = ?, max_stock = ?
-    WHERE id = ?
-  `;
+  try {
+    const query = `
+      UPDATE Stock_Rules SET
+        moq = ?, pack_size = ?, pack_density = ?,
+        adr_mode = ?, adr_months = ?, adr = ?,
+        lod = ?, lod_stock = ?, safety_stock = ?,
+        rol = ?, max_stock = ?, updated_at = NOW()
+      WHERE rule_id = ?
+    `;
 
-  const values = [
-    data.item_name, data.uom, data.pack_size, data.moq, data.adr,
-    data.lead_time, data.lod_stock, data.ss, data.rol, data.max_stock,
-    id
-  ];
+    const values = [
+      moq, pack_size, pack_density,
+      adr_mode, adr_months || null, adr || null,
+      lod, lod_stock, safety_stock, rol, max_stock,
+      id
+    ];
 
-  db.query(query, values, (err, result) => {
-    if (err) return res.status(500).json({ error: 'Error updating stock rule' });
+    const [result] = await db.query(query, values);
+    if (result.affectedRows === 0) return res.status(404).json({ error: 'Rule not found' });
     res.json({ message: 'Stock rule updated' });
-  });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Update failed' });
+  }
 };
 
-exports.deleteStockRule = (req, res) => {
+// Soft delete rule
+exports.deleteStockRule = async (req, res) => {
   const { id } = req.params;
-  db.query('DELETE FROM stock_rules WHERE id = ?', [id], (err, result) => {
-    if (err) return res.status(500).json({ error: 'Error deleting stock rule' });
+  try {
+    const [result] = await db.query(`DELETE FROM Stock_Rules WHERE rule_id = ?`, [id]);
+    if (result.affectedRows === 0) return res.status(404).json({ error: 'Rule not found' });
     res.json({ message: 'Stock rule deleted' });
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Delete failed' });
+  }
 };
