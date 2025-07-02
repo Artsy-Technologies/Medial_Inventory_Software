@@ -3,9 +3,13 @@ const session = require('express-session');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const stockRuleRoutes = require('./routes/stockRuleRoutes');
+const poRoutes = require('./routes/purchaseOrderRoutes');
+const itemRoutes = require('./routes/itemRoutes');
+const vendorRoutes = require('./routes/vendorRoutes');
+const vendorItemRoutes = require('./routes/vendorItemRoutes');
 
 const app = express();
-
+   
 require('dotenv').config();
 
 app.use(cors({
@@ -27,6 +31,10 @@ app.use(session({
 }));
 
 app.use('/api', authRoutes);
-app.use('/api', stockRuleRoutes);
+app.use('/api/stock-rule', stockRuleRoutes);
+app.use('/api/po', poRoutes);
+app.use('/api/items', itemRoutes);
+app.use('/api/vendors', vendorRoutes);
+app.use('/api/vendor-items', vendorItemRoutes);
 
 module.exports = app;
