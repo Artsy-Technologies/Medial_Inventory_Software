@@ -1,0 +1,21 @@
+{
+  "po_number": "PO202406001",
+  "po_date": "2025-07-01",
+  "vendor_name": "MedVendo",
+  "vendor_code": "V123",
+  "store_name": "City Pharmacy",
+  "store_address": "45 Health St, Wellness Nagar",
+  "items": [
+    {
+      "item_code": "T0001",
+      "description": "Paracetamol 500mg",
+      "uom": "Nos",
+      "unit_price": 2,
+      "quantity": 5000,
+      "cgst": "6%",
+      "sgst": "6%",
+      "igst": "0%",
+      "po_value": 11200
+    }
+  ]
+}
